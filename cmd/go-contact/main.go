@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func main() {
@@ -12,7 +12,18 @@ func main() {
 		name := c.PostForm("name")
 		message := c.PostForm("message")
 
-		fmt.Println(name, message)
+		if name == "" || message == "" {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"Error":   "Bad Request",
+				"Message": "Name and message must not be empty",
+			})
+
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"Message": "Ok",
+		})
 	})
 
 	_ = r.Run()
