@@ -8,12 +8,14 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 func main() {
 	url := flag.String("url", "", "URL to receive form submissions (webhook target)")
 	nameKey := flag.String("nameKey", "name", "The webhook target will receive the name value of a form submission with this key in the json data")
 	messageKey := flag.String("messageKey", "message", "The webhook target will receive the message value of a form submission with this key in the json data")
+	port := flag.Int("port", 8080, "Port to listen to for form submissions")
 	flag.Parse()
 
 	if *url == "" {
@@ -51,7 +53,7 @@ func main() {
 		})
 	})
 
-	log.Fatal(r.Run())
+	log.Fatal(r.Run(":" + strconv.Itoa(*port)))
 }
 
 func sendWebhook(url string, nameKey string, messageKey string, name string, message string) error {
