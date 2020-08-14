@@ -20,6 +20,26 @@ webhook target.
 
 ```
 
+# Example
+Execute the application with the following config:
+```
+./go-contact -url "http://localhost/webhook-receiver" -port 8085 -nameKey "value1" -messageKey "value2"
+```
+
+It will start the app and listen on port 8085. After a contact form submission is received it will be forwarded
+by the following http post request to your defined url:
+```
+POST /webhook-receiver HTTP/1.1
+Host: localhost
+Content-Length: 45
+Content-Type: application/json
+
+{
+  "value2": "Hi there",
+  "value1": "Max"
+}
+```
+
 
 # Build
 To build executables for multiple platforms you can use the build script at `scripts/build.sh`.
