@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"flag"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"os"
 )
@@ -50,7 +51,7 @@ func main() {
 		})
 	})
 
-	_ = r.Run()
+	log.Fatal(r.Run())
 }
 
 func sendWebhook(url string, nameKey string, messageKey string, name string, message string) error {
