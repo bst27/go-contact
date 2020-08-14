@@ -3,11 +3,23 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"flag"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 )
 
 func main() {
+	url := flag.String("url", "", "URL to receive form submissions (webhook target)")
+	nameKey := flag.String("nameKey", "name", "The webhook target will receive the name value of a form submission with this key in the json data")
+	messageKey := flag.String("messageKey", "message", "The webhook target will receive the message value of a form submission with this key in the json data")
+	flag.Parse()
+
+	if *url == "" {
+		flag.PrintDefaults()
+		os.Exit(1)
+	}
+
 	r := gin.Default()
 
 	r.POST("/contact", func(c *gin.Context) {
@@ -23,7 +35,7 @@ func main() {
 			return
 		}
 
-		err := sendWebhook("http://localhost:8081/webhook-receiver", name, message)
+		err := sendWebhook(*url, *nameKey, *messageKey, name, message)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"Error":   "Internal Server Error",
@@ -41,10 +53,10 @@ func main() {
 	_ = r.Run()
 }
 
-func sendWebhook(url string, name string, message string) error {
+func sendWebhook(url string, nameKey string, messageKey string, name string, message string) error {
 	body := make(map[string]string)
-	body["name"] = name
-	body["message"] = message
+	body[nameKey] = name
+	body[messageKey] = message
 
 	jsonBody, err := json.MarshalIndent(body, "", "   ")
 	if err != nil {
