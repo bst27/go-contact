@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -21,10 +22,25 @@ func main() {
 			return
 		}
 
+		err := sendWebhook(name, message)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"Error":   "Internal Server Error",
+				"Message": "Failed to process request",
+			})
+
+			return
+		}
+
 		c.JSON(http.StatusOK, gin.H{
 			"Message": "Ok",
 		})
 	})
 
 	_ = r.Run()
+}
+
+func sendWebhook(name string, message string) error {
+	fmt.Println(name, message) // TODO: Implement
+	return nil
 }
