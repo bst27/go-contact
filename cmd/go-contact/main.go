@@ -16,11 +16,18 @@ func main() {
 	nameKey := flag.String("nameKey", "name", "The webhook target will receive the name value of a form submission with this key in the json data")
 	messageKey := flag.String("messageKey", "message", "The webhook target will receive the message value of a form submission with this key in the json data")
 	port := flag.Int("port", 8080, "Port to listen to for form submissions")
+	debug := flag.Bool("debug", false, "Enable debug mode")
 	flag.Parse()
 
 	if *url == "" {
 		flag.PrintDefaults()
 		os.Exit(1)
+	}
+
+	if *debug {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
 	}
 
 	r := gin.Default()
