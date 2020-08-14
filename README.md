@@ -1,6 +1,7 @@
 # About
 This app forwards contact forms via webhook. It receives form submissions via http and forwards them to a defined
-webhook target.
+webhook target. You can receive form submissions in [Telegram](https://telegram.org/) easily using this
+app and [IFTTT](https://ifttt.com/) - and much more.
 
 # Usage
 ```
