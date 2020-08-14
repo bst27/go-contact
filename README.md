@@ -1,3 +1,5 @@
+![go-contact](https://raw.githubusercontent.com/bst27/go-contact/master/website/banner.png)
+
 # About
 This app forwards contact forms via webhook. It receives form submissions via http and forwards them to a defined
 webhook target. You can receive form submissions in [Telegram](https://telegram.org/) easily using this
